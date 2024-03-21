@@ -2,16 +2,18 @@
   "name": "vite-plugin-uniapp-routes",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "type": "module",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "dev": "vite"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "vite-plugin-inspect": "^0.8.3",
-    "vite": "^5.2.2"
-  },
-  "dependencies": {}
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.3"
+  }
 }
