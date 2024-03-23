@@ -1,5 +1,4 @@
 import { readFileSync, writeFileSync, accessSync, constants } from "fs";
-import { Plugin } from "vite";
 
 export interface VitePluginUniappRoutesOptions {
   dir?: string;
@@ -78,12 +77,12 @@ function fileExists(filePath: string) {
   }
 }
 
-const uniappRoutes = (option: VitePluginUniappRoutesOptions): Plugin => {
-  const { dir } = option;
-  const tsFilePath = (dir ?? ".") + "/routes.ts";
+const uniappRoutes = (option?: VitePluginUniappRoutesOptions) => {
+  const { dir = "." } = option ?? {};
+  const tsFilePath = dir + "/routes.ts";
   return {
     name: "vite-plugin-uniapp-routes",
-    buildStart: (curOpt) => {
+    buildStart: () => {
       const jsonContent = readFileSync("src/pages.json", "utf-8");
       const json = JSON.parse(jsonContent);
       const tsContent = generateTsCode(json);
