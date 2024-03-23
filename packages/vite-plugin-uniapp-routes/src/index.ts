@@ -1,29 +1,40 @@
 import { readFileSync, writeFileSync, accessSync, constants } from "fs";
 import { Plugin } from "vite";
 
-interface VitePluginUniappRoutesOptions {
+export interface VitePluginUniappRoutesOptions {
   dir?: string;
 }
 
-interface RoutesObj {
+interface PagesJsonPages {
+  path: string;
+  style: {
+    navigationBarTitleText: string;
+  };
+}
+
+interface PagesJson {
+  pages: PagesJsonPages[];
+}
+
+interface RouteInfo {
   path: string;
   name: string;
 }
 
-function generateTsCode(json: any) {
-  const routes: Record<string, RoutesObj> = {};
+function generateTsCode(json: PagesJson) {
+  const routes: Record<string, RouteInfo> = {};
 
-  for (const page of json.pages) {
-    const key = getPageKey(page.path);
+  for (const { path, style } of json.pages) {
+    const key = getPageKey(path);
     routes[key] = {
-      path: `/${page.path}`,
-      name: page.style.navigationBarTitleText,
+      path: `/${path}`,
+      name: style.navigationBarTitleText,
     };
   }
 
   const routeKeys = Object.keys(routes);
 
-  if (!routeKeys || routeKeys.length === 0) {
+  if (routeKeys.length === 0) {
     return "";
   }
 
