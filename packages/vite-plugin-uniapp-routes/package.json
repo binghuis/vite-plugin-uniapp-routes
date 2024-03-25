@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-uniapp-routes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "type": "module",
   "exports": {
@@ -10,6 +10,9 @@
       "require": "./lib/index.cjs"
     }
   },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup"
