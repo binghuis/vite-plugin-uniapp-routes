@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {},
-  "keywords": [
-    "vite-plugin"
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC"
 }
