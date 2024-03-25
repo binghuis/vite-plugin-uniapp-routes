@@ -6,7 +6,7 @@
 
 当 `pages.json` 文件改变时在 `src` 目录下更新 `routes.ts`。
 
-<img src='/static/pages.png' width='180px' /><img src='/static/routes.png' width='352px'  />
+<img src='https://raw.githubusercontent.com/binghuis/assets/main/vite-plugin-uniapp-routes/pages.png' width='35%' /><img src='https://raw.githubusercontent.com/binghuis/assets/main/vite-plugin-uniapp-routes/routes.png' width='65%'  />
 
 ## 安装
 
