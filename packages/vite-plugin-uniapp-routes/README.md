@@ -3,8 +3,7 @@
 一个根据 `pages.json` 自动生成路由枚举文件的 `Vite` 插件。
 
 <div style="display: flex;">
-<img src='image-1.png' width='35%' />
-<img src='image.png' width='65%' />
+<img src='/static/image.png' width='65%' />
 </div>
 
 ## 行为
