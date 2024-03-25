@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync, accessSync, constants } from "fs";
+import path from "node:path";
 
 export interface VitePluginUniappRoutesOptions {
   dir?: string;
@@ -62,10 +63,14 @@ function generateTsCode(json: PagesJson) {
 }
 
 function getPageKey(pagePath: string) {
-  pagePath = pagePath.replace(/^pages/, "");
-  const pattern = /(?<=\/|^)([a-z])/g;
-  const key = pagePath.replace(pattern, (match, p1) => p1.toUpperCase());
-  return key.replace(/[-/]/g, "");
+  const paths = pagePath.replace(/^(pages\/)|-/g, "");
+
+  return paths
+    .split("/")
+    .map((item) => {
+      return item[0]?.toLocaleUpperCase() + item.slice(1);
+    })
+    .join("");
 }
 
 function fileExists(filePath: string) {
@@ -78,8 +83,9 @@ function fileExists(filePath: string) {
 }
 
 const uniappRoutes = (option?: VitePluginUniappRoutesOptions) => {
-  const { dir = "." } = option ?? {};
-  const tsFilePath = dir + "/routes.ts";
+  const { dir = "src" } = option ?? {};
+  const tsFilePath = path.join(dir, "/routes.ts");
+
   return {
     name: "vite-plugin-uniapp-routes",
     buildStart: () => {

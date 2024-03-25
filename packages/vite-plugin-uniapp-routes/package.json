@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "module": "lib/index.js",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "exports": {
     ".": {
+      "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
     }
@@ -16,7 +14,9 @@
     "dev": "tsup --watch",
     "build": "tsup"
   },
-  "keywords": [],
+  "keywords": [
+    "vite-plugin"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
