@@ -6,7 +6,7 @@
 
 当 `pages.json` 文件改变时在 `src` 目录下更新 `routes.ts`。
 
-<img src='/static/routes.png' width='65%' />
+<img src='../../static/pages.png' width='180px' /><img src='../../static/routes.png' width='352px'  />
 
 ## 安装
 
