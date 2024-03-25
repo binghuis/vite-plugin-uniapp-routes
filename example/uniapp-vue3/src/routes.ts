@@ -1,13 +1,17 @@
-// eslint-disable
-// prettier-ignore
+/* eslint-disable */
 
 export enum RoutesEnum {
-	/** uni-app */
-	"IndexIndex" = "/pages/index/index",
-	/** login */
-	"LoginIndex" = "/pages/login/index"
+  /** 首页 */
+  "IndexIndex" = "/pages/index/index",
+  /** 登录 */
+  "LoginIndex" = "/pages/login/index",
+  /** 我的 */
+  "MineIndex" = "/pages/mine/index",
 }
 
-export type RouteKeyType = "IndexIndex" | "LoginIndex"
+export type RouteKeyType = "IndexIndex" | "LoginIndex" | "MineIndex";
 
-export type RoutePathType = "/pages/index/index" | "/pages/login/index"
+export type RoutePathType =
+  | "/pages/index/index"
+  | "/pages/login/index"
+  | "/pages/mine/index";

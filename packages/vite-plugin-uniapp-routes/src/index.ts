@@ -39,8 +39,7 @@ function generateTsCode(json: PagesJson) {
   }
 
   const tsCode =
-    `// eslint-disable\n` +
-    `// prettier-ignore\n\n` +
+    `/* eslint-disable */\n` +
     `export enum RoutesEnum {${routeKeys
       .map((key) => {
         if (!routes[key]) {
