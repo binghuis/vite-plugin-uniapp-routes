@@ -1,9 +1,9 @@
 # vite-plugin-uniapp-routes
 
-[![npm version](https://img.shields.io/npm/v/vite-plugin-uniapp-routes)](https://www.npmjs.com/package/vite-plugin-uniapp-routes)
-![vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&labelColor=263238)
-
 一个根据 pages.json 自动生成路由枚举文件的 Vite 插件。
+
+![vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&labelColor=263238)
+[![npm version](https://img.shields.io/npm/v/vite-plugin-uniapp-routes)](https://www.npmjs.com/package/vite-plugin-uniapp-routes)
 
 当 `pages.json` 文件改变时在 `src` 目录下更新 `routes.ts`。
 
