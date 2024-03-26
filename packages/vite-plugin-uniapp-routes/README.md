@@ -1,9 +1,7 @@
 # vite-plugin-uniapp-routes
 
 [![npm version](https://img.shields.io/npm/v/vite-plugin-uniapp-routes)](https://www.npmjs.com/package/vite-plugin-uniapp-routes)
-[![GitHub](https://img.shields.io/github/license/binghuis/vite-plugin-uniapp-routes.svg)](https://github.com/binghuis/vite-plugin-uniapp-routes/blob/main/LICENSE)
 ![vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&labelColor=263238)
-![rollup](https://img.shields.io/badge/rollup.js-EC4A3F?logo=rollupdotjs&labelColor=263238)
 
 一个根据 pages.json 自动生成路由枚举文件的 Vite 插件。
 
