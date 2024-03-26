@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-uniapp-routes",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "一个根据 pages.json 自动生成路由枚举文件的 Vite 插件",
   "type": "module",
   "types": "./lib/index.d.ts",
