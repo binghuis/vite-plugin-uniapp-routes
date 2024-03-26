@@ -21,7 +21,7 @@
     "vite-plugin"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.11.30",
     "tsup": "^8.0.2",
