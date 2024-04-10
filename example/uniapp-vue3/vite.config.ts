@@ -4,5 +4,10 @@ import { uniappRoutes } from "vite-plugin-uniapp-routes";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [uniappRoutes(), uni()],
+  plugins: [
+    uniappRoutes({
+      prefix: [],
+    }),
+    uni(),
+  ],
 });

@@ -1,3 +1,5 @@
+// 当前文件由 vite-plugin-uniapp-routes 自动生成，请勿修改
+
 /* eslint-disable */
 export enum RoutesEnum {
 	/** 首页 */

@@ -3,6 +3,7 @@ import path from "node:path";
 
 export interface VitePluginUniappRoutesOptions {
   dir?: string;
+  prefix?: string | string[];
 }
 
 interface PagesJsonPages {
@@ -38,17 +39,20 @@ function generateTsCode(json: PagesJson) {
     return "";
   }
 
-  const tsCode =
+  const tsContent =
+    `// 当前文件由 vite-plugin-uniapp-routes 自动生成，请勿修改\n\n` +
     `/* eslint-disable */\n` +
     `export enum RoutesEnum {${routeKeys
       .map((key) => {
         if (!routes[key]) {
           return "";
         }
-        return (
-          `\n\t/** ${routes[key]?.name} */\n` +
-          `\t"${key}" = "${routes[key]?.path}"`
-        );
+
+        const comment = routes[key]?.name
+          ? `\n\t/** ${routes[key]?.name} */\n`
+          : "";
+
+        return comment + `\t"${key}" = "${routes[key]?.path}"`;
       })
       .join(",")}\n}\n\n` +
     `export type RouteKeyType = ${routeKeys
@@ -58,7 +62,7 @@ function generateTsCode(json: PagesJson) {
       .map((value) => `"${value.path}"`)
       .join(" | ")}`;
 
-  return tsCode;
+  return tsContent;
 }
 
 function getPageKey(pagePath: string) {
@@ -82,7 +86,7 @@ function fileExists(filePath: string) {
 }
 
 const uniappRoutes = (option?: VitePluginUniappRoutesOptions) => {
-  const { dir = "src" } = option ?? {};
+  const { dir = "src", prefix } = option ?? {};
   const tsFilePath = path.join(dir, "/routes.ts");
 
   return {
@@ -90,7 +94,16 @@ const uniappRoutes = (option?: VitePluginUniappRoutesOptions) => {
     buildStart: () => {
       const jsonContent = readFileSync("src/pages.json", "utf-8");
       const json = JSON.parse(jsonContent);
-      const tsContent = generateTsCode(json);
+      let tsContent = generateTsCode(json);
+
+      if (Array.isArray(prefix) && prefix.length > 0) {
+        tsContent = prefix.join("\n") + "\n\n" + tsContent;
+      }
+
+      if (prefix && typeof prefix === "string") {
+        tsContent = prefix + "\n\n" + tsContent;
+      }
+
       let oldContent = "";
       if (fileExists(tsFilePath)) {
         oldContent = readFileSync(tsFilePath, "utf-8");
