@@ -50,7 +50,7 @@ function generateTsCode(json: PagesJson) {
 
         const comment = routes[key]?.name
           ? `\n\t/** ${routes[key]?.name} */\n`
-          : "";
+          : "\n";
 
         return comment + `\t"${key}" = "${routes[key]?.path}"`;
       })
