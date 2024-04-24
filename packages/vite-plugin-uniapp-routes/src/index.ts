@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, accessSync, constants } from "fs";
+import { accessSync, constants, readFileSync, writeFileSync } from "fs";
 import path from "node:path";
 
 export interface VitePluginUniappRoutesOptions {
@@ -13,8 +13,14 @@ interface PagesJsonPages {
   };
 }
 
+interface SubPackagesItem {
+  root: string;
+  pages: PagesJsonPages[];
+}
+
 interface PagesJson {
   pages: PagesJsonPages[];
+  subPackages: SubPackagesItem[];
 }
 
 interface RouteInfo {
@@ -24,14 +30,13 @@ interface RouteInfo {
 
 function generateTsCode(json: PagesJson) {
   const routes: Record<string, RouteInfo> = {};
+  const { subPackages = [] } = json;
 
-  for (const { path, style } of json.pages) {
-    const key = getPageKey(path);
-    routes[key] = {
-      path: `/${path}`,
-      name: style.navigationBarTitleText,
-    };
-  }
+  getRoutesObj(routes, json.pages);
+
+  subPackages.forEach((item: SubPackagesItem) => {
+    getRoutesObj(routes, item.pages, item.root + "/");
+  });
 
   const routeKeys = Object.keys(routes);
 
@@ -63,6 +68,21 @@ function generateTsCode(json: PagesJson) {
       .join(" | ")}`;
 
   return tsContent;
+}
+
+function getRoutesObj(
+  routes: Record<string, RouteInfo>,
+  pagesArr: PagesJsonPages[],
+  prePath: string = ""
+) {
+  for (let { path, style } of pagesArr) {
+    path = prePath + path;
+    const key = getPageKey(path);
+    routes[key] = {
+      path: `/${path}`,
+      name: style.navigationBarTitleText,
+    };
+  }
 }
 
 function getPageKey(pagePath: string) {
