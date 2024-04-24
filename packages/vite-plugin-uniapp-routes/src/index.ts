@@ -13,14 +13,14 @@ interface PagesJsonPages {
   };
 }
 
-interface SubPackagesItem {
+interface PagesJsonSubPackages {
   root: string;
   pages: PagesJsonPages[];
 }
 
 interface PagesJson {
   pages: PagesJsonPages[];
-  subPackages: SubPackagesItem[];
+  subPackages?: PagesJsonSubPackages[];
 }
 
 interface RouteInfo {
@@ -28,14 +28,43 @@ interface RouteInfo {
   name: string;
 }
 
-function generateTsCode(json: PagesJson) {
+function genPageKey(pagePath: string) {
+  const paths = pagePath.replace(/^(pages\/)|-/g, "");
+
+  return paths
+    .split("/")
+    .filter(Boolean)
+    .map((item) => {
+      return item[0]?.toLocaleUpperCase() + item.slice(1);
+    })
+    .join("");
+}
+
+function genPageObj(
+  path: PagesJsonPages["path"],
+  style: PagesJsonPages["style"]
+) {
+  return {
+    path: `/${path}`.replace(/\/{2,}/g, "/"),
+    name: style.navigationBarTitleText,
+  };
+}
+
+function genTsCode(json: PagesJson) {
   const routes: Record<string, RouteInfo> = {};
-  const { subPackages = [] } = json;
+  const { subPackages, pages } = json;
 
-  getRoutesObj(routes, json.pages);
+  for (const { path, style } of pages) {
+    const key = genPageKey(path);
+    routes[key] = genPageObj(path, style);
+  }
 
-  subPackages.forEach((item: SubPackagesItem) => {
-    getRoutesObj(routes, item.pages, item.root + "/");
+  subPackages?.forEach((pkg: PagesJsonSubPackages) => {
+    for (let { path, style } of pkg.pages) {
+      path = pkg.root + "/" + path;
+      const key = genPageKey(path);
+      routes[key] = genPageObj(path, style);
+    }
   });
 
   const routeKeys = Object.keys(routes);
@@ -70,32 +99,6 @@ function generateTsCode(json: PagesJson) {
   return tsContent;
 }
 
-function getRoutesObj(
-  routes: Record<string, RouteInfo>,
-  pagesArr: PagesJsonPages[],
-  prePath: string = ""
-) {
-  for (let { path, style } of pagesArr) {
-    path = prePath + path;
-    const key = getPageKey(path);
-    routes[key] = {
-      path: `/${path}`,
-      name: style.navigationBarTitleText,
-    };
-  }
-}
-
-function getPageKey(pagePath: string) {
-  const paths = pagePath.replace(/^(pages\/)|-/g, "");
-
-  return paths
-    .split("/")
-    .map((item) => {
-      return item[0]?.toLocaleUpperCase() + item.slice(1);
-    })
-    .join("");
-}
-
 function fileExists(filePath: string) {
   try {
     accessSync(filePath, constants.F_OK);
@@ -114,7 +117,7 @@ const uniappRoutes = (option?: VitePluginUniappRoutesOptions) => {
     buildStart: () => {
       const jsonContent = readFileSync("src/pages.json", "utf-8");
       const json = JSON.parse(jsonContent);
-      let tsContent = generateTsCode(json);
+      let tsContent = genTsCode(json);
 
       if (Array.isArray(prefix) && prefix.length > 0) {
         tsContent = prefix.join("\n") + "\n\n" + tsContent;
