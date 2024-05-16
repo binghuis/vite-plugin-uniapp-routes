@@ -7,7 +7,7 @@
 
 当 `pages.json` 文件改变时更新 `src/routes.ts`。
 
-<img src='https://raw.githubusercontent.com/binghuis/assets/main/vite-plugin-uniapp-routes/compare.png'/>
+<img src='https://raw.githubusercontent.com/binghuis/assets/main/vite-plugin-uniapp-routes/compare.avif'/>
 
 ## 安装
 
